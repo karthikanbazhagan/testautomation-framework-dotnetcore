@@ -1,4 +1,5 @@
 ﻿using TechTalk.SpecFlow;
+using Xunit;
 
 namespace SampleTestProject.Steps
 {
@@ -10,49 +11,60 @@ namespace SampleTestProject.Steps
 
         private readonly ScenarioContext _scenarioContext;
 
+        private int a, b, result;
+
         public CalculatorStepDefinitions(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
+            a = b = result = 0;
         }
 
         [Given("the first number is (.*)")]
         public void GivenTheFirstNumberIs(int number)
         {
-            //TODO: implement arrange (precondition) logic
-            // For storing and retrieving scenario-specific data see https://go.specflow.org/doc-sharingdata
-            // To use the multiline text or the table argument of the scenario,
-            // additional string/Table parameters can be defined on the step definition
-            // method. 
-
-            _scenarioContext.Pending();
+            a = number;
+            System.Console.WriteLine("First number is: " + a);
         }
 
         [Given("the second number is (.*)")]
         public void GivenTheSecondNumberIs(int number)
         {
-            //TODO: implement arrange (precondition) logic
-            // For storing and retrieving scenario-specific data see https://go.specflow.org/doc-sharingdata
-            // To use the multiline text or the table argument of the scenario,
-            // additional string/Table parameters can be defined on the step definition
-            // method. 
-
-            _scenarioContext.Pending();
+            b = number;
+            System.Console.WriteLine("Second number is: " + b);
         }
 
-        [When("the two numbers are added")]
-        public void WhenTheTwoNumbersAreAdded()
+        [When(@"the two numbers are ""(.*)""")]
+        public void WhenTheTwoNumbersAre(string operation)
         {
-            //TODO: implement act (action) logic
+            switch(operation)
+            {
+                case Calculator.PLUS:
+                    result = Calculator.Add(a, b);
+                    break;
 
-            _scenarioContext.Pending();
+                case Calculator.MINUS:
+                    result = Calculator.Substract(a, b);
+                    break;
+
+                case Calculator.MULTIPLY:
+                    result = Calculator.Multiply(a, b);
+                    break;
+
+                default:
+                    System.Console.WriteLine("Unknown Operation: " + operation);
+                    break;
+            }
+
+            System.Console.WriteLine("Operation: " + operation);
+            System.Console.WriteLine("Actual Result: " + result);
         }
 
         [Then("the result should be (.*)")]
         public void ThenTheResultShouldBe(int result)
         {
-            //TODO: implement assert (verification) logic
+            System.Console.WriteLine("Expected Result: "+ result);
 
-            _scenarioContext.Pending();
+            Assert.Equal(result, this.result);
         }
     }
 }
