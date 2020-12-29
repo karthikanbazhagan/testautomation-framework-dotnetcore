@@ -15,3 +15,9 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '**\*.sln'
+    clean: true
+    msbuildArchitecture: 'x64'
